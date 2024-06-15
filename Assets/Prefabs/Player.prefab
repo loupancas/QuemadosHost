@@ -151,6 +151,8 @@ GameObject:
   - component: {fileID: 5334876514227456754}
   - component: {fileID: 5860577369457566291}
   - component: {fileID: 6291370432751387910}
+  - component: {fileID: -1029973060747154942}
+  - component: {fileID: 4922756005343363629}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -198,6 +200,8 @@ MonoBehaviour:
   - {fileID: -2902237220816036932}
   - {fileID: 5334876514227456754}
   - {fileID: 5860577369457566291}
+  - {fileID: -1029973060747154942}
+  - {fileID: 4922756005343363629}
 --- !u!143 &3646999185272772699
 CharacterController:
   m_ObjectHideFlags: 0
@@ -292,6 +296,36 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7120b849a6eb00747b9e6eb1ed45a095, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-1029973060747154942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372818318902800013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ef6e52e6f9196c4a83722477b01ab1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gravity: -20
+  jumpImpulse: 8
+  acceleration: 10
+  braking: 10
+  maxSpeed: 2
+  rotationSpeed: 15
+--- !u!114 &4922756005343363629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372818318902800013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd997efa1e283943a8794f94afb93e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8080183265548954737

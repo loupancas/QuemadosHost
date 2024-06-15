@@ -7,12 +7,13 @@ using Fusion.Sockets;
 public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 {
     [SerializeField] private NetworkPrefabRef _playerPrefab;
-    
+    Vector3 position = new Vector3(0, 0, 0);
+
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         if (runner.IsServer)
         {
-            runner.Spawn(_playerPrefab, null, null, player);
+            runner.Spawn(_playerPrefab, position, null, player);
         }
     }
 

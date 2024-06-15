@@ -20,8 +20,7 @@ public class NetworkCharacterControllerCustom : NetworkCharacterController
 
         moveVelocity.y += gravity * Runner.DeltaTime;
 
-        var horizontalVel = default(Vector3);
-        horizontalVel.z = moveVelocity.x;
+        var horizontalVel = new Vector3(direction.x, 0, direction.z) * maxSpeed;
 
         if (direction == default)
         {
@@ -30,14 +29,19 @@ public class NetworkCharacterControllerCustom : NetworkCharacterController
         else
         {
             horizontalVel = Vector3.ClampMagnitude(horizontalVel + direction * acceleration * deltaTime, maxSpeed);
-            transform.rotation = Quaternion.Euler(Vector3.up * (Mathf.Sign(direction.z) < 0 ? 180 : 0));
+            transform.rotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         }
 
-        moveVelocity.x = horizontalVel.z;
+        moveVelocity.x = horizontalVel.x;
+        moveVelocity.z = horizontalVel.z;
 
         Controller.Move(moveVelocity * deltaTime);
 
         Velocity = (transform.position - previousPos) * Runner.TickRate;
         Grounded = Controller.isGrounded;
     }
+
+    
+
+
 }

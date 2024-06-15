@@ -1,14 +1,13 @@
 using Fusion;
+using UnityEngine;
+using static UnityEngine.EventSystems.PointerEventData;
+using UnityEngine.InputSystem;
 
 public struct NetworkInputData : INetworkInput
 {
-    public float movementInput;
-    public NetworkBool isFirePressed;
-    
-    public NetworkButtons networkButtons;
+    public Vector2 movementInput;
+    //public NetworkBool isFirePressed;
+    public bool isFirePressed;
+    public bool isJumpPressed;
 }
 
-enum MyButtons
-{
-    Jump = 0,
-}

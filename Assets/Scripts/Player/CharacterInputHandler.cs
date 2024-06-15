@@ -1,4 +1,5 @@
 using UnityEngine;
+using Fusion;
 
 public class CharacterInputHandler : MonoBehaviour
 {
@@ -14,14 +15,9 @@ public class CharacterInputHandler : MonoBehaviour
 
     void Update()
     {
-        _inputData.movementInput = Input.GetAxis("Horizontal");
+        _inputData.movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _isFirePressed = true;
-        }
-
-        _isJumpPressed |= Input.GetKeyDown(KeyCode.W);
+        _isJumpPressed |= Input.GetKeyDown(KeyCode.Space);
 
     }
 
@@ -29,8 +25,8 @@ public class CharacterInputHandler : MonoBehaviour
     {
         _inputData.isFirePressed = _isFirePressed;
         _isFirePressed = false;
-        
-        _inputData.networkButtons.Set(MyButtons.Jump, _isJumpPressed);
+
+        _inputData.isJumpPressed = _isJumpPressed;
         _isJumpPressed = false;
         
         return _inputData;
