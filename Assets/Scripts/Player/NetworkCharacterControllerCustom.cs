@@ -1,10 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
-using Fusion;
 using UnityEngine;
+using Fusion;
 
 public class NetworkCharacterControllerCustom : NetworkCharacterController
 {
+    [Networked] public float maxSpeed { get; set; } = 5f;
+    [Networked] public float jumpForce { get; set; } = 5f;
+
     public override void Move(Vector3 direction)
     {
         var deltaTime = Runner.DeltaTime;
@@ -41,7 +42,12 @@ public class NetworkCharacterControllerCustom : NetworkCharacterController
         Grounded = Controller.isGrounded;
     }
 
-    
-
-
+    public void Jump()
+    {
+        if (Grounded)
+        {
+            Velocity = new Vector3(Velocity.x, jumpForce, Velocity.z);
+            Grounded = false;
+        }
+    }
 }
