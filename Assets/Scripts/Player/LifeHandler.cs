@@ -2,19 +2,25 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Fusion;
+using TMPro;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LifeHandler : NetworkBehaviour
 {
     [SerializeField] private GameObject _playerVisual;
     
-    private byte _currentLife;
+    public byte _currentLife;
 
-    private const byte MAX_LIFE = 100;
+    public const byte MAX_LIFE = 100;
     private const byte MAX_DEADS = 5;
 
     private byte _currentDeads = 0;
-    
+
+    public TextMeshProUGUI _lifeText;   
+    public Animation healthProgress;
+    public Image Progress;
     [Networked] 
     NetworkBool IsDead { get; set; }
     
@@ -55,8 +61,23 @@ public class LifeHandler : NetworkBehaviour
                 IsDead = true;
             }
         }
+
+        UpdateHealthUI();
     }
-    
+
+    public void Health(byte currentLife)
+    {
+        _currentLife = currentLife;
+        UpdateHealthUI();
+    }
+
+    private void UpdateHealthUI()
+    {
+        float health = (float)_currentLife / MAX_LIFE;
+        Progress.fillAmount = health;
+        _lifeText.text = _currentLife.ToString();
+    }
+
     IEnumerator Server_RespawnCooldown()
     {
         yield return new WaitForSeconds(2f);
@@ -66,9 +87,10 @@ public class LifeHandler : NetworkBehaviour
 
     void Server_Revive()
     {
-        OnRespawn();
+        OnRespawn?.Invoke();
         IsDead = false;
         _currentLife = MAX_LIFE;
+        UpdateHealthUI();
     }
     
     void DisconnectPlayer()
@@ -102,8 +124,8 @@ public class LifeHandler : NetworkBehaviour
         {
             Remote_Respawn();
         }
-        
-        OnDeadChange(IsDead);
+
+        OnDeadChange?.Invoke(IsDead);
     }
     
     void Remote_Dead()
@@ -118,6 +140,6 @@ public class LifeHandler : NetworkBehaviour
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        OnDespawn();
+        OnDespawn?.Invoke();
     }
 }
