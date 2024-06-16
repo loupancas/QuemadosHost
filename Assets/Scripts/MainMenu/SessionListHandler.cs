@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class SessionListHandler : MonoBehaviour
 {
     [SerializeField] private SessionInfoItem _sessionItemPrefab;

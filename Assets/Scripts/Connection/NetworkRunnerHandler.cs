@@ -86,13 +86,13 @@ public class NetworkRunnerHandler : MonoBehaviour, INetworkRunnerCallbacks
     
     public void OnSessionListUpdated(NetworkRunner runner, List<SessionInfo> sessionList)
     {
-        // if (sessionList.Count == 0) return;
-        //
-        // var session = sessionList[0];
-        //
-        // Debug.Log($"[Custom Msg] Joining {session.Name}");
-        //
-        // JoinGame(session);
+        //if (sessionList.Count == 0) return;
+
+        //var session = sessionList[0];
+
+        //Debug.Log($"[Custom Msg] Joining {session.Name}");
+
+        //JoinGame(session);
 
         OnSessionListUpdate(sessionList);
     }
