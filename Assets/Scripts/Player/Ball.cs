@@ -6,12 +6,14 @@ using Fusion;
 using Fusion.Addons.Physics;
 
 [RequireComponent(typeof(NetworkRigidbody3D))]
-public class Bullet : NetworkBehaviour
+public class Ball : NetworkBehaviour
 {
     private NetworkRigidbody3D _networkRb;
 
     TickTimer _lifeTimeTickTimer = TickTimer.None;
-    
+
+    [SerializeField] private byte _damage;
+
     private void Awake()
     {
         _networkRb = GetComponent<NetworkRigidbody3D>();
@@ -19,7 +21,7 @@ public class Bullet : NetworkBehaviour
 
     public override void Spawned()
     {
-        _networkRb.Rigidbody.AddForce(transform.right * 10, ForceMode.VelocityChange);
+        _networkRb.Rigidbody.AddForce(transform.forward * 10, ForceMode.VelocityChange);
 
         if (Object.HasStateAuthority)
         {
@@ -47,11 +49,11 @@ public class Bullet : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (Object && Object.HasStateAuthority)
+        if (other.TryGetComponent(out LifeHandler lifeHandler))
         {
-            //if (other)
-            
-            DespawnObject();
+            lifeHandler.TakeDamage(_damage);
         }
+
+        DespawnObject();
     }
 }
