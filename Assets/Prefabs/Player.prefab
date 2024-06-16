@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6b0190108a178649b64c11850550f84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bulletPrefab:
+  _ballPrefab:
     RawGuidValue: 18f0c406a247a9647b4d9a59f4ae27ca
   _firingPositionTransform: {fileID: 8570499279276007096}
   _shootingParticles: {fileID: 4157882843242373314}

@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class WeaponHandler : NetworkBehaviour
 {
-    [SerializeField] private NetworkPrefabRef _bulletPrefab;
+    [SerializeField] private NetworkPrefabRef _ballPrefab;
     [SerializeField] private Transform _firingPositionTransform;
     [SerializeField] private ParticleSystem _shootingParticles;
 
     [Networked]
-    NetworkBool _spawnedBullet { get; set; }
+    NetworkBool _spawnedBall { get; set; }
     
     private ChangeDetector _changeDetector;
     
@@ -23,7 +23,7 @@ public class WeaponHandler : NetworkBehaviour
         {
             switch (change)
             {
-                case nameof(_spawnedBullet):
+                case nameof(_spawnedBall):
                     RemoteParticles();
                     break;
             }
@@ -32,8 +32,8 @@ public class WeaponHandler : NetworkBehaviour
 
     public void Fire()
     {
-        Runner.Spawn(_bulletPrefab, _firingPositionTransform.position, transform.rotation);
-        _spawnedBullet = !_spawnedBullet;
+        Runner.Spawn(_ballPrefab, _firingPositionTransform.position, transform.rotation);
+        _spawnedBall = !_spawnedBall;
     }
 
     void RemoteParticles()

@@ -19,6 +19,7 @@ public class CharacterInputHandler : MonoBehaviour
 
         _isJumpPressed |= Input.GetKeyDown(KeyCode.Space);
 
+        _isFirePressed |= Input.GetMouseButtonDown(0);
     }
 
     public NetworkInputData GetLocalInputs()

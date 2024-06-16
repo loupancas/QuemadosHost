@@ -11,7 +11,7 @@ public class LifeHandler : NetworkBehaviour
     private byte _currentLife;
 
     private const byte MAX_LIFE = 100;
-    private const byte MAX_DEADS = 2;
+    private const byte MAX_DEADS = 5;
 
     private byte _currentDeads = 0;
     
