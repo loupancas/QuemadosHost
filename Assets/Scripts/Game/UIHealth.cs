@@ -7,7 +7,7 @@ using UnityEngine.UI;
 	{
 		public TextMeshProUGUI Value;
 		public Image           Progress;
-		public Animation       HealthProgressAnimation;
+		//public Animation       HealthProgressAnimation;
 		public TextMeshProUGUI HealValue;
 
 		private int _lastHealth = -1;
@@ -41,15 +41,15 @@ using UnityEngine.UI;
 	
 		private void SampleHealthProgressAnimation(float normalizedTime)
 		{
-			var animationState = HealthProgressAnimation[HealthProgressAnimation.clip.name];
+			//var animationState = HealthProgressAnimation[HealthProgressAnimation.clip.name];
 
-			animationState.weight = 1f;
-			animationState.enabled = true;
+			//animationState.weight = 1f;
+			//animationState.enabled = true;
 
-			animationState.normalizedTime = normalizedTime;
-			HealthProgressAnimation.Sample();
+			//animationState.normalizedTime = normalizedTime;
+			//HealthProgressAnimation.Sample();
 
-			animationState.enabled = false;
+			//animationState.enabled = false;
 		}
 	}
 

@@ -18,9 +18,8 @@ public class LifeHandler : NetworkBehaviour
 
     private byte _currentDeads = 0;
 
-    public TextMeshProUGUI _lifeText;   
-    public Animation healthProgress;
-    public Image Progress;
+    UIHealth _uiHealth;
+
     [Networked] 
     NetworkBool IsDead { get; set; }
     
@@ -62,20 +61,14 @@ public class LifeHandler : NetworkBehaviour
             }
         }
 
-        UpdateHealthUI();
+        _uiHealth.UpdateHealth(this);
     }
 
     public void Health(byte currentLife)
     {
         _currentLife = currentLife;
-        UpdateHealthUI();
-    }
+        _uiHealth.UpdateHealth(this);
 
-    private void UpdateHealthUI()
-    {
-        float health = (float)_currentLife / MAX_LIFE;
-        Progress.fillAmount = health;
-        _lifeText.text = _currentLife.ToString();
     }
 
     IEnumerator Server_RespawnCooldown()
@@ -90,9 +83,10 @@ public class LifeHandler : NetworkBehaviour
         OnRespawn?.Invoke();
         IsDead = false;
         _currentLife = MAX_LIFE;
-        UpdateHealthUI();
+        _uiHealth.UpdateHealth(this);
+
     }
-    
+
     void DisconnectPlayer()
     {   
         if (!Object.HasInputAuthority)
