@@ -14,7 +14,8 @@ public class PlayerController : NetworkBehaviour
     private float _defaultJumpForce;
     private Coroutine _speedCoroutine;
     private Coroutine _jumpCoroutine;
-
+    BallPickup _ballPickup;
+    public bool HasBall { get; set; }
     private void Awake()
     {
         _myCharacterController = GetComponent<NetworkCharacterControllerCustom>();
@@ -59,8 +60,24 @@ public class PlayerController : NetworkBehaviour
         // Disparo
         if (networkInputData.isFirePressed)
         {
-            _myWeaponHandler.Fire();
+            if (HasBall)
+            {
+                _myWeaponHandler.Fire();
+                DropBall();
+            }
+            else
+            {
+                Debug.Log("No tienes la pelota");
+            }
+
         }
+        
+    }
+
+    private void DropBall()
+    {
+        HasBall = false;
+        FindObjectOfType<BallPickup>().Drop();
     }
 
     public void ApplySpeedBoost(float modifier, float duration)

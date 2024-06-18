@@ -14,7 +14,7 @@ public class PowerUpPickup : NetworkBehaviour
 
     public PowerUpType Type;
     public float Radius = 1f;
-    public float Cooldown = 10f;
+    public float Cooldown = 1f;
     public LayerMask LayerMask;
     public GameObject ActiveObject;
     public GameObject InactiveObject;

@@ -9,13 +9,13 @@ using Fusion.Addons.Physics;
 public class Ball : NetworkBehaviour
 {
     private NetworkRigidbody3D _networkRb;
-    public bool _BallOwned;
+    
     public string Name;
     public Sprite Icon;
-
+    
     TickTimer _lifeTimeTickTimer = TickTimer.None;
 
-    [SerializeField] private byte _damage;
+    [SerializeField] public byte _damage;
 
     private void Awake()
     {

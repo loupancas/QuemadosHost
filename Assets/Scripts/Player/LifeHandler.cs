@@ -12,8 +12,8 @@ public class LifeHandler : NetworkBehaviour
     [SerializeField] private GameObject _playerVisual;
     
     public byte _currentLife;
-
-    public const byte MAX_LIFE = 100;
+    Ball Ball;
+    public const byte MAX_LIFE = 10;
     private const byte MAX_DEADS = 5;
 
     private byte _currentDeads = 0;
@@ -43,6 +43,7 @@ public class LifeHandler : NetworkBehaviour
     //Si es mi segunda vez, desconectar al jugador
     public void TakeDamage(byte dmg)
     {
+        dmg= Ball._damage;
         if (dmg > _currentLife) dmg = _currentLife;
 
         _currentLife -= dmg;

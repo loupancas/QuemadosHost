@@ -17,11 +17,11 @@ public class UIBall : MonoBehaviour
 
 
         // Modify UI text only when value changed.  
-        if (ball._BallOwned == _ball._BallOwned)
-            return;
-        BallIcon.sprite = ball.Icon;
-        Name.text = ball.Name;
-        _ball._BallOwned = ball._BallOwned;
+        //if (ball._BallOwned == _ball._BallOwned)
+        //    return;
+        //BallIcon.sprite = ball.Icon;
+        //Name.text = ball.Name;
+        //_ball._BallOwned = ball._BallOwned;
 
 
 
