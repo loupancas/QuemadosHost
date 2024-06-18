@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7751931446748217947}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: FirePos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,7 +42,7 @@ GameObject:
   - component: {fileID: 5573095321805517836}
   - component: {fileID: 1607626245422508305}
   - component: {fileID: 2441778767472545838}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -123,7 +123,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6952560099450820128}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -155,7 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4437783399279393765}
   - component: {fileID: 2179064564158400612}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Hitbox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 6291370432751387910}
   - component: {fileID: -1029973060747154942}
   - component: {fileID: 4922756005343363629}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -380,8 +380,6 @@ MonoBehaviour:
   braking: 10
   maxSpeed: 2
   rotationSpeed: 15
-  _maxSpeed: 5
-  _jumpForce: 5
 --- !u!114 &4922756005343363629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -405,7 +403,7 @@ GameObject:
   - component: {fileID: 8570499279276007096}
   - component: {fileID: 8909604704378178392}
   - component: {fileID: 8697756542229163075}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Fire
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -489,7 +487,7 @@ GameObject:
   - component: {fileID: 5653944383286706634}
   - component: {fileID: 4157882843242373314}
   - component: {fileID: 5006184899512670628}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Particles
   m_TagString: Untagged
   m_Icon: {fileID: 0}

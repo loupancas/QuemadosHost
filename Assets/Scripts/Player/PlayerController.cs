@@ -39,7 +39,7 @@ public class PlayerController : NetworkBehaviour
     public override void Spawned()
     {
         _defaultSpeed = _myCharacterController.maxSpeed;
-        _defaultJumpForce = _myCharacterController.jumpForce;
+        _defaultJumpForce = _myCharacterController.jumpImpulse;
     }
 
     public override void FixedUpdateNetwork()
@@ -84,14 +84,39 @@ public class PlayerController : NetworkBehaviour
     private IEnumerator BoostSpeed(float modifier, float duration)
     {
         _myCharacterController.maxSpeed = modifier;
+        ChangeColorRecursively(transform, Color.red);
         yield return new WaitForSeconds(duration);
         _myCharacterController.maxSpeed = _defaultSpeed;
+        ChangeColorRecursively(transform, Color.white);
     }
 
     private IEnumerator BoostJump(float modifier, float duration)
     {
-        _myCharacterController.jumpForce = modifier;
+        _myCharacterController.jumpImpulse = modifier;
+         ChangeColorRecursively(transform, Color.blue);
         yield return new WaitForSeconds(duration);
-        _myCharacterController.jumpForce = _defaultJumpForce;
+        _myCharacterController.jumpImpulse = _defaultJumpForce;
+        ChangeColorRecursively(transform, Color.white);
     }
+
+    void ChangeColorRecursively(Transform parent, Color color)
+    {
+        foreach (Transform child in parent)
+        {
+            SkinnedMeshRenderer renderer = child.GetComponent<SkinnedMeshRenderer>();
+            if (renderer != null)
+            {
+                foreach (var material in renderer.materials)
+                {
+                    material.color = color;
+                }
+            }
+
+            ChangeColorRecursively(child, color);
+        }
+    }
+
+
+
+
 }

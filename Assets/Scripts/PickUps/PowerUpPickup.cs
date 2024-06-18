@@ -1,13 +1,16 @@
 using Fusion;
 using UnityEngine;
 
+
+public enum PowerUpType
+{
+    Jump,
+    Velocity
+}
+
+
 public class PowerUpPickup : NetworkBehaviour
 {
-    public enum PowerUpType
-    {
-        Jump,
-        Velocity
-    }
 
     public PowerUpType Type;
     public float Radius = 1f;
@@ -15,13 +18,15 @@ public class PowerUpPickup : NetworkBehaviour
     public LayerMask LayerMask;
     public GameObject ActiveObject;
     public GameObject InactiveObject;
-
+    public float modifier; // El multiplicador para la velocidad o el salto
+    public float duration; // La duración del efecto del pickup
+    
     public bool IsActive => _activationTimer.ExpiredOrNotRunning(Runner);
 
     [Networked]
     private TickTimer _activationTimer { get; set; }
 
-    private static Collider[] _colliders = new Collider[8];
+    private static Collider[] _colliders = new Collider[4];
 
     public override void Spawned()
     {
@@ -34,18 +39,23 @@ public class PowerUpPickup : NetworkBehaviour
         if (!IsActive)
             return;
 
-        // Obtener todos los colisionadores alrededor del pickup dentro del radio.
-        int collisions = Runner.GetPhysicsScene().OverlapSphere(transform.position + Vector3.up, Radius, _colliders, LayerMask, QueryTriggerInteraction.Ignore);
-        for (int i = 0; i < collisions; i++)
+
+        if (Runner.IsServer)
         {
-            var player = _colliders[i].GetComponentInParent<PlayerController>();
-            if (player != null)
+            int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _colliders, LayerMask);
+            for (int i = 0; i < hitCount; i++)
             {
-                ApplyPowerUp(player);
-                _activationTimer = TickTimer.CreateFromSeconds(Runner, Cooldown);
-                break;
+                PlayerController player = _colliders[i].GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    ApplyPowerUp(player);
+                    _activationTimer = TickTimer.CreateFromSeconds(Runner, Cooldown);
+                    break;
+                }
             }
         }
+
+
     }
 
     private void ApplyPowerUp(PlayerController player)
@@ -53,10 +63,12 @@ public class PowerUpPickup : NetworkBehaviour
         switch (Type)
         {
             case PowerUpType.Jump:
-                player.ApplyJumpBoost(5f, 10f); 
+                player.ApplyJumpBoost(modifier,duration); 
+                Debug.Log("Jump Boost Applied");
                 break;
             case PowerUpType.Velocity:
-                player.ApplySpeedBoost(10f, 10f); 
+                player.ApplySpeedBoost(modifier,duration);
+                Debug.Log("Speed Boost Applied");
                 break;
         }
     }

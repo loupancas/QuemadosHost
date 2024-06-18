@@ -3,8 +3,7 @@ using Fusion;
 
 public class NetworkCharacterControllerCustom : NetworkCharacterController
 {
-    [Networked] public float maxSpeed { get; set; } = 5f;
-    [Networked] public float jumpForce { get; set; } = 5f;
+   
 
     public override void Move(Vector3 direction)
     {
@@ -46,7 +45,7 @@ public class NetworkCharacterControllerCustom : NetworkCharacterController
     {
         if (Grounded)
         {
-            Velocity = new Vector3(Velocity.x, jumpForce, Velocity.z);
+            Velocity = new Vector3(Velocity.x, jumpImpulse, Velocity.z);
             Grounded = false;
         }
     }
