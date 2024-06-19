@@ -14,7 +14,7 @@ public class PlayerController : NetworkBehaviour
     private float _defaultJumpForce;
     private Coroutine _speedCoroutine;
     private Coroutine _jumpCoroutine;
-    BallPickup _ballPickup;
+    [Networked]
     public bool HasBall { get; set; }
     private void Awake()
     {
@@ -76,6 +76,8 @@ public class PlayerController : NetworkBehaviour
 
     private void DropBall()
     {
+        if (!Runner.IsServer) return;      
+        
         HasBall = false;
         FindObjectOfType<BallPickup>().Drop();
     }

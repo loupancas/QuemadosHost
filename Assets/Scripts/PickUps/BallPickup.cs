@@ -13,12 +13,12 @@ public class BallPickup : NetworkBehaviour
     public GameObject ActiveObject;
     public GameObject InactiveObject;
    
-    public bool IsPickedUp { get; private set; }
-    public bool IsActive => !IsPickedUp;
+ 
 
     //[Networked]
     //private TickTimer _activationTimer { get; set; }
-
+    [Networked]
+    public bool IsPickedUp { get; set; }
     private static Collider[] _colliders = new Collider[4];
 
     public override void Spawned()
@@ -65,22 +65,12 @@ public class BallPickup : NetworkBehaviour
 
     private void UpdateBallState()
     {
-        ActiveObject.SetActive(IsActive);
-        InactiveObject.SetActive(!IsActive);
+        ActiveObject.SetActive(!IsPickedUp);
+        InactiveObject.SetActive(IsPickedUp);
     }
 
-    private void CanShoot(PlayerController player)
-    {
-        player.HasBall = true;
-    }
-
-
-
-    public override void Render()
-    {
-        ActiveObject.SetActive(IsActive);
-        InactiveObject.SetActive(!IsActive);
-    }
+  
+    
 
     private void OnDrawGizmos()
     {
