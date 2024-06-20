@@ -43,7 +43,6 @@ public class LifeHandler : NetworkBehaviour
     //Si es mi segunda vez, desconectar al jugador
     public void TakeDamage(byte dmg)
     {
-        dmg= Ball._damage;
         if (dmg > _currentLife) dmg = _currentLife;
 
         _currentLife -= dmg;

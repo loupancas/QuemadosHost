@@ -14,6 +14,8 @@ public class PlayerController : NetworkBehaviour
     private float _defaultJumpForce;
     private Coroutine _speedCoroutine;
     private Coroutine _jumpCoroutine;
+
+    public bool ThirdPersonCamera { get; set; }
     [Networked]
     public NetworkBool HasBall { get; set; }
     private void Awake()
