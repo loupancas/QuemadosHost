@@ -15,7 +15,7 @@ public class PlayerController : NetworkBehaviour
     private Coroutine _speedCoroutine;
     private Coroutine _jumpCoroutine;
     [Networked]
-    public bool HasBall { get; set; }
+    public NetworkBool HasBall { get; set; }
     private void Awake()
     {
         _myCharacterController = GetComponent<NetworkCharacterControllerCustom>();
@@ -58,28 +58,47 @@ public class PlayerController : NetworkBehaviour
         }
 
         // Disparo
-        if (networkInputData.isFirePressed)
+        if (networkInputData.isFirePressed && HasBall)
         {
-            if (HasBall)
-            {
-                _myWeaponHandler.Fire();
-                DropBall();
-            }
-            else
-            {
-                Debug.Log("No tienes la pelota");
-            }
-
+            RPC_FireAndDropBall();
         }
         
     }
 
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, HostMode =RpcHostMode.SourceIsHostPlayer)]
+    private void RPC_FireAndDropBall()
+    {
+        if (!HasBall) return;
+        _myWeaponHandler.Fire();
+        DropBall();
+    }
+
+
     private void DropBall()
     {
-        if (!Runner.IsServer) return;      
-        
         HasBall = false;
+
+        if (Runner.IsServer)
+        {
+            FindObjectOfType<BallPickup>().Drop();
+
+        }
+        else
+        {
+            RPC_DropBallOnServer();
+        }
+
+    }
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, HostMode = RpcHostMode.SourceIsHostPlayer)]
+    private void RPC_DropBallOnServer()
+    {
         FindObjectOfType<BallPickup>().Drop();
+    }
+
+    public override void Render()
+    {
+        base.Render();
     }
 
     public void ApplySpeedBoost(float modifier, float duration)

@@ -8,17 +8,13 @@ public class BallPickup : NetworkBehaviour
 
    
     public float Radius = 1f;
-    //public float Cooldown = 5f;
     public LayerMask LayerMask;
     public GameObject ActiveObject;
     public GameObject InactiveObject;
-   
- 
 
-    //[Networked]
-    //private TickTimer _activationTimer { get; set; }
-    [Networked]
+    [Networked]  
     public bool IsPickedUp { get; set; }
+
     private static Collider[] _colliders = new Collider[4];
 
     public override void Spawned()
@@ -48,19 +44,26 @@ public class BallPickup : NetworkBehaviour
 
 
     }
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, HostMode = RpcHostMode.SourceIsHostPlayer)]
+    public void RPC_PickUp(PlayerController player)
+    {    
+       if(IsPickedUp)
+        {
+            return;
+        }
+     
+        PickUp(player);
+    }
 
     private void PickUp(PlayerController player)
-    {    
-
+    {
         IsPickedUp = true;
         player.HasBall = true;
-        UpdateBallState();
     }
 
     public void Drop()
     {
         IsPickedUp = false;
-        UpdateBallState();
     }
 
     private void UpdateBallState()
@@ -69,8 +72,11 @@ public class BallPickup : NetworkBehaviour
         InactiveObject.SetActive(IsPickedUp);
     }
 
-  
-    
+    public override void Render()
+    {
+        UpdateBallState();
+    }
+
 
     private void OnDrawGizmos()
     {
