@@ -32,7 +32,12 @@ public class CharacterInputHandler : MonoBehaviour
 
         _isFirePressed |= Input.GetMouseButtonDown(0);
 
-       characterMovementHandler.SetViewInputVector(viewInput);
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+          NetworkPlayer.Local.is3rdPersonCamera = !NetworkPlayer.Local.is3rdPersonCamera;
+        }
+        _localCameraHandler.SetViewInputVector(viewInput);
+
     }
 
     public NetworkInputData GetLocalInputs()

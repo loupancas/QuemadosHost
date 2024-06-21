@@ -16,7 +16,6 @@ public class CharacterMovementHandler : NetworkBehaviour
     private Coroutine _jumpCoroutine;
 
     public Vector2 viewInputVector;
-    float cameraRotationY = 0;
     Camera localCamera;
     
     public bool ThirdPersonCamera { get; set; }

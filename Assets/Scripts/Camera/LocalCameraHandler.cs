@@ -15,15 +15,13 @@ public class LocalCameraHandler : MonoBehaviour
     float cameraRotationX = 0;
     float cameraRotationY = 0;
 
-    NetworkCharacterController _networkCharacterController;
-    //NetworkPlayer playermodel;
-    CharacterMovementHandler _playerController;
+    NetworkPlayer playermodel;
     CinemachineVirtualCamera cinemachineVirtualCamera;
-
+    NetworkCharacterControllerCustom _networkCharacterControllerCustom;
     private void Awake()
     {
      localCamera = GetComponent<Camera>();
-     _networkCharacterController = GetComponentInParent<NetworkCharacterController>();
+     _networkCharacterControllerCustom = GetComponentInParent<NetworkCharacterControllerCustom>();
     }
 
     void Start()
@@ -43,7 +41,7 @@ public class LocalCameraHandler : MonoBehaviour
         cinemachineVirtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
         else 
         {
-            if (_playerController.ThirdPersonCamera)
+            if (NetworkPlayer.Local.is3rdPersonCamera)
             {
 
                 if (!cinemachineVirtualCamera.enabled)
@@ -59,11 +57,15 @@ public class LocalCameraHandler : MonoBehaviour
             else
             {
                 if(cinemachineVirtualCamera.enabled)
+                {
+                    cinemachineVirtualCamera.enabled = false;
 
-                cinemachineVirtualCamera.enabled = false;
-                Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel,LayerMask.NameToLayer("LocalPlayerModel"));
 
-                localBall.SetActive(true);
+                    Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel, LayerMask.NameToLayer("Player"));
+
+                    localBall.SetActive(true);
+                }
+             
 
 
             }
@@ -73,7 +75,7 @@ public class LocalCameraHandler : MonoBehaviour
             cameraRotationX += viewInput.y*Time.deltaTime*40;
             cameraRotationX=Mathf.Clamp(cameraRotationX, -90, 90);
 
-            cameraRotationY += viewInput.x * Time.deltaTime * _networkCharacterController.rotationSpeed;
+            cameraRotationY += viewInput.x * Time.deltaTime * _networkCharacterControllerCustom.rotationSpeed;
 
             localCamera.transform.rotation = Quaternion.Euler(cameraRotationX, cameraRotationY, 0);
 
@@ -89,8 +91,8 @@ public class LocalCameraHandler : MonoBehaviour
     {
         if(cameraRotationX != 0 && cameraRotationY!=0)
         {
-            //GameManager.instance.CameraViewRotationX = cameraRotationX;
-            //GameManager.instance.CameraViewRotationY = cameraRotationY;
+            GameManager.instance.CameraViewRotation.x = cameraRotationX;
+            GameManager.instance.CameraViewRotation.y = cameraRotationY;
         }
        
     }
