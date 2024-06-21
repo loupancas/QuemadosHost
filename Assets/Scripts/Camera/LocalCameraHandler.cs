@@ -2,6 +2,7 @@ using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Fusion;
 
 public class LocalCameraHandler : MonoBehaviour
 {
@@ -14,54 +15,53 @@ public class LocalCameraHandler : MonoBehaviour
     float cameraRotationX = 0;
     float cameraRotationY = 0;
 
-    NetworkCharacterControllerCustom _networkCharacterControllerCustom;
-    PlayerController _playerController;
-    CinemachineVirtualCamera _virtualCamera;
-    Vector2 cameraAnchorPoint;
+    NetworkCharacterController _networkCharacterController;
+    //NetworkPlayer playermodel;
+    CharacterMovementHandler _playerController;
+    CinemachineVirtualCamera cinemachineVirtualCamera;
 
     private void Awake()
     {
      localCamera = GetComponent<Camera>();
-     _networkCharacterControllerCustom = GetComponentInParent<NetworkCharacterControllerCustom>();
+     _networkCharacterController = GetComponentInParent<NetworkCharacterController>();
     }
 
     void Start()
     {
-        cameraRotationX = _cameraAnchorPoint.localEulerAngles.x;
-        cameraRotationY = _cameraAnchorPoint.localEulerAngles.y;
-        //cameraRotationX = GameManager.instance.CameraViewRotationX;
-        //cameraRotationY = GameManager.instance.CameraViewRotationY;
+       
+        cameraRotationX = GameManager.instance.CameraViewRotation.x;
+        cameraRotationY = GameManager.instance.CameraViewRotation.y;
     }
 
     private void LateUpdate()
     {
-        if (cameraAnchorPoint==null)
+        if (_cameraAnchorPoint==null)
         return;
         if(!localCamera.enabled)
         return;
-        if(_virtualCamera== null)
-        _virtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        if(cinemachineVirtualCamera== null)
+        cinemachineVirtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
         else 
         {
             if (_playerController.ThirdPersonCamera)
             {
 
-                if (!_virtualCamera.enabled)
+                if (!cinemachineVirtualCamera.enabled)
                 {
-                    //CinemachineVirtualCamera.follow = NetworkPlayer.Local.playermodel;
-                    //CinemachineVirtualCamera.lookAt = NetworkPlayer.Local.playermodel;
-                    //CinemachineVirtualCamera.enabled = true;
-                    //Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel,LayerMask.NameToLayer("Default"));
+                    cinemachineVirtualCamera.Follow = NetworkPlayer.Local.playermodel;
+                    cinemachineVirtualCamera.LookAt = NetworkPlayer.Local.playermodel;
+                    cinemachineVirtualCamera.enabled = true;
+                    Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel,LayerMask.NameToLayer("Default"));
                     localBall.SetActive(false);
                 }
                return;
             }
             else
             {
-                //if(CinemachineVirtualCamera.enabled)
+                if(cinemachineVirtualCamera.enabled)
 
-                //CinemachineVirtualCamera.enabled = false;
-                //Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel,LayerMask.NameToLayer("LocalPlayerModel"));
+                cinemachineVirtualCamera.enabled = false;
+                Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel,LayerMask.NameToLayer("LocalPlayerModel"));
 
                 localBall.SetActive(true);
 
@@ -69,11 +69,11 @@ public class LocalCameraHandler : MonoBehaviour
             }
             
 
-            //localCamera.transform.position = cameraAnchorPoint.position;
-            //cameraX += viewInput.y*Time.deltaTime*NetworkCharacterControllerCustom.ViewUpDownSpeed;
-            //cameraX=Mathf.Clamp(cameraX, -90, 90);
+            localCamera.transform.position = _cameraAnchorPoint.position;
+            cameraRotationX += viewInput.y*Time.deltaTime*40;
+            cameraRotationX=Mathf.Clamp(cameraRotationX, -90, 90);
 
-            //cameraY += viewInput.x * Time.deltaTime * NetworkCharacterControllerCustom.RotationSpeed;
+            cameraRotationY += viewInput.x * Time.deltaTime * _networkCharacterController.rotationSpeed;
 
             localCamera.transform.rotation = Quaternion.Euler(cameraRotationX, cameraRotationY, 0);
 
@@ -85,4 +85,16 @@ public class LocalCameraHandler : MonoBehaviour
         this.viewInput = viewInput;
     }
 
+    private void OnDestroy()
+    {
+        if(cameraRotationX != 0 && cameraRotationY!=0)
+        {
+            //GameManager.instance.CameraViewRotationX = cameraRotationX;
+            //GameManager.instance.CameraViewRotationY = cameraRotationY;
+        }
+       
+    }
 }
+
+
+

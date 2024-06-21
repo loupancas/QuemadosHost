@@ -33,7 +33,7 @@ public class BallPickup : NetworkBehaviour
             int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _colliders, LayerMask);
             for (int i = 0; i < hitCount; i++)
             {
-                PlayerController player = _colliders[i].GetComponent<PlayerController>();
+                CharacterMovementHandler player = _colliders[i].GetComponent<CharacterMovementHandler>();
                 if (player != null)
                 {
                     PickUp(player);
@@ -45,7 +45,7 @@ public class BallPickup : NetworkBehaviour
 
     }
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, HostMode = RpcHostMode.SourceIsHostPlayer)]
-    public void RPC_PickUp(PlayerController player)
+    public void RPC_PickUp(CharacterMovementHandler player)
     {    
        if(IsPickedUp)
         {
@@ -55,7 +55,7 @@ public class BallPickup : NetworkBehaviour
         PickUp(player);
     }
 
-    private void PickUp(PlayerController player)
+    private void PickUp(CharacterMovementHandler player)
     {
         IsPickedUp = true;
         player.HasBall = true;

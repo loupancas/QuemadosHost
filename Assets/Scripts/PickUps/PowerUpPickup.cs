@@ -45,7 +45,7 @@ public class PowerUpPickup : NetworkBehaviour
             int hitCount = Physics.OverlapSphereNonAlloc(transform.position, Radius, _colliders, LayerMask);
             for (int i = 0; i < hitCount; i++)
             {
-                PlayerController player = _colliders[i].GetComponent<PlayerController>();
+                CharacterMovementHandler player = _colliders[i].GetComponent<CharacterMovementHandler>();
                 if (player != null)
                 {
                     ApplyPowerUp(player);
@@ -58,7 +58,7 @@ public class PowerUpPickup : NetworkBehaviour
 
     }
 
-    private void ApplyPowerUp(PlayerController player)
+    private void ApplyPowerUp(CharacterMovementHandler player)
     {
         switch (Type)
         {

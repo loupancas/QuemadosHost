@@ -4,7 +4,9 @@ using Fusion;
 public class NetworkCharacterControllerCustom : NetworkCharacterController
 {
    
-
+    //public float rotationSpeed = 10f;
+    public float viewUpDownRotationSpeed = 50f;
+    //public Vector2 viewInputVector;
     public override void Move(Vector3 direction)
     {
         var deltaTime = Runner.DeltaTime;
@@ -49,4 +51,13 @@ public class NetworkCharacterControllerCustom : NetworkCharacterController
             Grounded = false;
         }
     }
+
+    public void Rotate(float rotationY)
+    {
+        
+        transform.Rotate(0, rotationY*Runner.DeltaTime*rotationSpeed, 0);
+    }
+
+   
+
 }

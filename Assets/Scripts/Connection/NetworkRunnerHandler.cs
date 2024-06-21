@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Fusion;
 using Fusion.Sockets;
@@ -96,11 +97,17 @@ public class NetworkRunnerHandler : MonoBehaviour, INetworkRunnerCallbacks
 
         OnSessionListUpdate(sessionList);
     }
-    
+
     #endregion
-    
+
+
+    private void Start()
+    {
+       // var ClientTask = ISupportInitializeNotification
+    }
+
     #region Unused Runner Callbacks
-    
+
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) { }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player) { }
     public void OnInput(NetworkRunner runner, NetworkInput input) { }

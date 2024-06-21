@@ -7,10 +7,21 @@ public class CharacterInputHandler : MonoBehaviour
 
     private bool _isJumpPressed;
     private bool _isFirePressed;
-    
+
+    LocalCameraHandler _localCameraHandler;
+    CharacterMovementHandler characterMovementHandler;
+    Vector2 viewInput=Vector2.zero;
+    private void Awake()
+    {
+        _localCameraHandler = GetComponentInChildren<LocalCameraHandler>();
+        characterMovementHandler = GetComponent<CharacterMovementHandler>();
+
+    }
     void Start()
     {
         _inputData = new NetworkInputData();
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     void Update()
@@ -20,6 +31,8 @@ public class CharacterInputHandler : MonoBehaviour
         _isJumpPressed |= Input.GetKeyDown(KeyCode.Space);
 
         _isFirePressed |= Input.GetMouseButtonDown(0);
+
+       characterMovementHandler.SetViewInputVector(viewInput);
     }
 
     public NetworkInputData GetLocalInputs()
@@ -29,7 +42,9 @@ public class CharacterInputHandler : MonoBehaviour
 
         _inputData.isJumpPressed = _isJumpPressed;
         _isJumpPressed = false;
-        
+
+        _inputData.aimForwardVector = _localCameraHandler.transform.forward;
+
         return _inputData;
     }
 }

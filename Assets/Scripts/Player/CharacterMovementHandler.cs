@@ -5,7 +5,7 @@ using System.Collections;
 [RequireComponent(typeof(NetworkCharacterControllerCustom))]
 [RequireComponent(typeof(WeaponHandler))]
 [RequireComponent(typeof(LifeHandler))]
-public class PlayerController : NetworkBehaviour
+public class CharacterMovementHandler : NetworkBehaviour
 {
     private NetworkCharacterControllerCustom _myCharacterController;
     private WeaponHandler _myWeaponHandler;
@@ -15,6 +15,10 @@ public class PlayerController : NetworkBehaviour
     private Coroutine _speedCoroutine;
     private Coroutine _jumpCoroutine;
 
+    public Vector2 viewInputVector;
+    float cameraRotationY = 0;
+    Camera localCamera;
+    
     public bool ThirdPersonCamera { get; set; }
     [Networked]
     public NetworkBool HasBall { get; set; }
@@ -22,8 +26,8 @@ public class PlayerController : NetworkBehaviour
     {
         _myCharacterController = GetComponent<NetworkCharacterControllerCustom>();
         _myWeaponHandler = GetComponent<WeaponHandler>();
+        localCamera = GetComponentInChildren<Camera>();
 
-       
 
         var lifeHandler = GetComponent<LifeHandler>();
 
@@ -39,6 +43,8 @@ public class PlayerController : NetworkBehaviour
         };
     }
 
+   
+
     public override void Spawned()
     {
         _defaultSpeed = _myCharacterController.maxSpeed;
@@ -49,6 +55,10 @@ public class PlayerController : NetworkBehaviour
     {
         if (!GetInput(out NetworkInputData networkInputData)) return;
 
+        transform.forward = networkInputData.aimForwardVector;
+        Quaternion rotation  = transform.rotation;
+        rotation.eulerAngles = new Vector3(0, 0, rotation.eulerAngles.z);
+        transform.rotation = rotation;
         // Movimiento
         Vector3 moveDirection = new Vector3(networkInputData.movementInput.x, 0, networkInputData.movementInput.y);
         _myCharacterController.Move(moveDirection);
@@ -156,7 +166,10 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-
+    public void SetViewInputVector(Vector2 viewInput)
+    {
+        this.viewInputVector = viewInput;
+    }
 
 
 }
