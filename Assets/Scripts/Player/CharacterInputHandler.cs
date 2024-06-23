@@ -3,14 +3,20 @@ using Fusion;
 
 public class CharacterInputHandler : MonoBehaviour
 {
-    private NetworkInputData _inputData;
+    //private NetworkInputData _inputData;
 
     private bool _isJumpPressed;
     private bool _isFirePressed;
 
     LocalCameraHandler _localCameraHandler;
     CharacterMovementHandler characterMovementHandler;
-    Vector2 viewInput=Vector2.zero;
+
+    Vector2 viewInput;
+    Vector2 movementInput;
+
+
+
+
     private void Awake()
     {
         _localCameraHandler = GetComponentInChildren<LocalCameraHandler>();
@@ -19,36 +25,53 @@ public class CharacterInputHandler : MonoBehaviour
     }
     void Start()
     {
-        _inputData = new NetworkInputData();
+        //_inputData = new NetworkInputData();
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     void Update()
     {
-        _inputData.movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+        viewInput.x = Input.GetAxis("Mouse X");
+        viewInput.y = Input.GetAxis("Mouse Y")*-1;
 
-        _isJumpPressed |= Input.GetKeyDown(KeyCode.Space);
+        movementInput.x = Input.GetAxis("Horizontal");
+        movementInput.y = Input.GetAxis("Vertical");
 
-        _isFirePressed |= Input.GetMouseButtonDown(1);
 
+        //_inputData.movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
+
+        //_isJumpPressed |= Input.GetKeyDown(KeyCode.Space);
+
+        //_isFirePressed |= Input.GetKeyDown(KeyCode.F);
+
+        //_3rdPersonCamera |= Input.GetMouseButtonDown(1);
+
+        if (Input.GetKeyDown(KeyCode.Space))        
+            _isJumpPressed = true;
+        
+        if (Input.GetKeyUp(KeyCode.F))       
+            _isFirePressed = true;
+        
         if (Input.GetKeyDown(KeyCode.C))
-        {
-          NetworkPlayer.Local.is3rdPersonCamera = !NetworkPlayer.Local.is3rdPersonCamera;
-        }
+            NetworkPlayer.Local.is3rdPersonCamera = !NetworkPlayer.Local.is3rdPersonCamera;
+
+
         _localCameraHandler.SetViewInputVector(viewInput);
 
     }
 
     public NetworkInputData GetLocalInputs()
     {
-        _inputData.isFirePressed = _isFirePressed;
+        NetworkInputData _inputData = new NetworkInputData
+        {
+            isFirePressed = _isFirePressed,
+            isJumpPressed = _isJumpPressed,
+            aimForwardVector = _localCameraHandler.transform.forward
+        };
+
         _isFirePressed = false;
-
-        _inputData.isJumpPressed = _isJumpPressed;
         _isJumpPressed = false;
-
-        _inputData.aimForwardVector = _localCameraHandler.transform.forward;
 
         return _inputData;
     }

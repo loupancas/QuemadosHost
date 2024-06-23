@@ -20,13 +20,16 @@ public class LocalCameraHandler : MonoBehaviour
     NetworkCharacterControllerCustom _networkCharacterControllerCustom;
     private void Awake()
     {
+
      localCamera = GetComponent<Camera>();
      _networkCharacterControllerCustom = GetComponentInParent<NetworkCharacterControllerCustom>();
     }
 
     void Start()
     {
-       
+       if(localCamera.enabled)
+            localCamera.transform.parent = null;
+
         cameraRotationX = GameManager.instance.CameraViewRotation.x;
         cameraRotationY = GameManager.instance.CameraViewRotation.y;
     }
@@ -61,7 +64,7 @@ public class LocalCameraHandler : MonoBehaviour
                     cinemachineVirtualCamera.enabled = false;
 
 
-                    Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel, LayerMask.NameToLayer("Player"));
+                    Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel, LayerMask.NameToLayer("LocalPlayerModel"));
 
                     localBall.SetActive(true);
                 }

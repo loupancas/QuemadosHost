@@ -8,6 +8,7 @@ public class NetworkPlayer : NetworkBehaviour
     public static NetworkPlayer Local { get; private set; }
     public Transform playermodel;
     public bool is3rdPersonCamera { get; set; } 
+    public LocalCameraHandler localCameraHandler;
     public override void Spawned()
     {
         if (Object.HasInputAuthority)
@@ -25,4 +26,7 @@ public class NetworkPlayer : NetworkBehaviour
             audioListener.enabled = false;
         }
     }
+
+  
 }
+

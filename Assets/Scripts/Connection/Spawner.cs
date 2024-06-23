@@ -22,6 +22,7 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     private CharacterInputHandler _characterInputHandler;
     
+
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
         if (!NetworkPlayer.Local) return;
