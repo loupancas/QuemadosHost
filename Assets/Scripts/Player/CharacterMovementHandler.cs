@@ -1,6 +1,7 @@
 using UnityEngine;
 using Fusion;
 using System.Collections;
+using UnityEditor;
 
 [RequireComponent(typeof(NetworkCharacterControllerCustom))]
 [RequireComponent(typeof(WeaponHandler))]
@@ -9,23 +10,18 @@ public class CharacterMovementHandler : NetworkBehaviour
 {
     private NetworkCharacterControllerCustom _myCharacterController;
     private WeaponHandler _myWeaponHandler;
-
     private float _defaultSpeed;
     private float _defaultJumpForce;
     private Coroutine _speedCoroutine;
     private Coroutine _jumpCoroutine;
-
-    public Vector2 viewInputVector;
-    Camera localCamera;
-    
-    public bool ThirdPersonCamera { get; set; }
+    public Animator Animator;
     [Networked]
     public NetworkBool HasBall { get; set; }
     private void Awake()
     {
         _myCharacterController = GetComponent<NetworkCharacterControllerCustom>();
         _myWeaponHandler = GetComponent<WeaponHandler>();
-        localCamera = GetComponentInChildren<Camera>();
+
 
 
         var lifeHandler = GetComponent<LifeHandler>();
@@ -46,6 +42,7 @@ public class CharacterMovementHandler : NetworkBehaviour
 
     public override void Spawned()
     {
+       
         _defaultSpeed = _myCharacterController.maxSpeed;
         _defaultJumpForce = _myCharacterController.jumpImpulse;
     }
@@ -54,18 +51,17 @@ public class CharacterMovementHandler : NetworkBehaviour
     {
         if (!GetInput(out NetworkInputData networkInputData)) return;
 
-        transform.forward = networkInputData.aimForwardVector;
-        Quaternion rotation  = transform.rotation;
-        rotation.eulerAngles = new Vector3(0, 0, rotation.eulerAngles.z);
-        transform.rotation = rotation;
+
         // Movimiento
-        Vector3 moveDirection = new Vector3(networkInputData.movementInput.x, 0, networkInputData.movementInput.y);
+        Vector3 moveDirection =new Vector3(networkInputData.movementInput.x, 0, networkInputData.movementInput.y);
         _myCharacterController.Move(moveDirection);
 
         // Salto
         if (networkInputData.isJumpPressed)
         {
             _myCharacterController.Jump();
+
+
         }
 
         // Disparo
@@ -74,6 +70,29 @@ public class CharacterMovementHandler : NetworkBehaviour
             RPC_FireAndDropBall();
         }
         
+    }
+
+    public override void Render()
+    {
+        if (!GetInput(out NetworkInputData networkInputData)) return;
+        Animator.SetFloat("Speed", 0f);
+        //Animator.SetFloat("Speed", 1f);
+        Animator.SetBool("Jumping", false);
+        Animator.SetBool("Shooting", false);
+        if (networkInputData.isJumpPressed)
+            Animator.SetBool("Jumping", true);
+        if (networkInputData.isFirePressed)
+            Animator.SetBool("Shooting", true);
+        if (networkInputData.movementInput.sqrMagnitude < 0.01f)
+        {
+            Animator.SetFloat("Speed", 0f);
+        }
+        else
+        {
+            Animator.SetFloat("Speed", 1f);
+
+        }
+
     }
 
     [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority, HostMode =RpcHostMode.SourceIsHostPlayer)]
@@ -107,10 +126,7 @@ public class CharacterMovementHandler : NetworkBehaviour
         FindObjectOfType<BallPickup>().Drop();
     }
 
-    public override void Render()
-    {
-        base.Render();
-    }
+  
 
     public void ApplySpeedBoost(float modifier, float duration)
     {
@@ -165,10 +181,7 @@ public class CharacterMovementHandler : NetworkBehaviour
         }
     }
 
-    public void SetViewInputVector(Vector2 viewInput)
-    {
-        this.viewInputVector = viewInput;
-    }
+   
 
 
 }

@@ -54,6 +54,7 @@ public class LifeHandler : NetworkBehaviour
             {
                 StartCoroutine(Server_RespawnCooldown());
                 IsDead = true;
+                Debug.Log("Dead");
             }
         }
 

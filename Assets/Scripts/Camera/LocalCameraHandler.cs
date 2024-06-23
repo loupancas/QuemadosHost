@@ -36,53 +36,53 @@ public class LocalCameraHandler : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (_cameraAnchorPoint==null)
-        return;
-        if(!localCamera.enabled)
-        return;
-        if(cinemachineVirtualCamera== null)
-        cinemachineVirtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
-        else 
-        {
-            if (NetworkPlayer.Local.is3rdPersonCamera)
-            {
+        //if (_cameraAnchorPoint==null)
+        //return;
+        //if(!localCamera.enabled)
+        //return;
+        //if(cinemachineVirtualCamera== null)
+        //cinemachineVirtualCamera = FindObjectOfType<CinemachineVirtualCamera>();
+        //else 
+        //{
+        //    if (NetworkPlayer.Local.is3rdPersonCamera)
+        //    {
 
-                if (!cinemachineVirtualCamera.enabled)
-                {
-                    cinemachineVirtualCamera.Follow = NetworkPlayer.Local.playermodel;
-                    cinemachineVirtualCamera.LookAt = NetworkPlayer.Local.playermodel;
-                    cinemachineVirtualCamera.enabled = true;
-                    Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel,LayerMask.NameToLayer("Default"));
-                    localBall.SetActive(false);
-                }
-               return;
-            }
-            else
-            {
-                if(cinemachineVirtualCamera.enabled)
-                {
-                    cinemachineVirtualCamera.enabled = false;
+        //        if (!cinemachineVirtualCamera.enabled)
+        //        {
+        //            cinemachineVirtualCamera.Follow = NetworkPlayer.Local.playermodel;
+        //            cinemachineVirtualCamera.LookAt = NetworkPlayer.Local.playermodel;
+        //            cinemachineVirtualCamera.enabled = true;
+        //            Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel,LayerMask.NameToLayer("Default"));
+        //            localBall.SetActive(false);
+        //        }
+        //       return;
+        //    }
+        //    else
+        //    {
+        //        if(cinemachineVirtualCamera.enabled)
+        //        {
+        //            cinemachineVirtualCamera.enabled = false;
 
 
-                    Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel, LayerMask.NameToLayer("LocalPlayerModel"));
+        //            Utils.SetRenderLayerInChildren(NetworkPlayer.Local.playermodel, LayerMask.NameToLayer("LocalPlayerModel"));
 
-                    localBall.SetActive(true);
-                }
+        //            localBall.SetActive(true);
+        //        }
              
 
 
-            }
+        //    }
             
 
-            localCamera.transform.position = _cameraAnchorPoint.position;
-            cameraRotationX += viewInput.y*Time.deltaTime*40;
-            cameraRotationX=Mathf.Clamp(cameraRotationX, -90, 90);
+        //    localCamera.transform.position = _cameraAnchorPoint.position;
+        //    cameraRotationX += viewInput.y*Time.deltaTime*40;
+        //    cameraRotationX=Mathf.Clamp(cameraRotationX, -90, 90);
 
-            cameraRotationY += viewInput.x * Time.deltaTime * _networkCharacterControllerCustom.rotationSpeed;
+        //    cameraRotationY += viewInput.x * Time.deltaTime * _networkCharacterControllerCustom.rotationSpeed;
 
-            localCamera.transform.rotation = Quaternion.Euler(cameraRotationX, cameraRotationY, 0);
+        //    localCamera.transform.rotation = Quaternion.Euler(cameraRotationX, cameraRotationY, 0);
 
-        }
+        //}
     }
 
     public void SetViewInputVector(Vector2 viewInput)
