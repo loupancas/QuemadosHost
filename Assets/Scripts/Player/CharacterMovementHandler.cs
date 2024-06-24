@@ -55,35 +55,7 @@ public class CharacterMovementHandler : NetworkBehaviour
         // Movimiento
         Vector3 moveDirection =new Vector3(networkInputData.movementInput.x, 0, networkInputData.movementInput.y);
         _myCharacterController.Move(moveDirection);
-
-        // Salto
-        if (networkInputData.isJumpPressed)
-        {
-            _myCharacterController.Jump();
-
-
-        }
-
-        // Disparo
-        if (networkInputData.isFirePressed && HasBall)
-        {
-            RPC_FireAndDropBall();
-        }
-        
-    }
-
-    public override void Render()
-    {
-        if (!GetInput(out NetworkInputData networkInputData)) return;
-        Animator.SetFloat("Speed", 0f);
-        //Animator.SetFloat("Speed", 1f);
-        Animator.SetBool("Jumping", false);
-        Animator.SetBool("Shooting", false);
-        if (networkInputData.isJumpPressed)
-            Animator.SetBool("Jumping", true);
-        if (networkInputData.isFirePressed)
-            Animator.SetBool("Shooting", true);
-        if (networkInputData.movementInput.sqrMagnitude < 0.01f)
+        if (moveDirection.sqrMagnitude < 0.01f)
         {
             Animator.SetFloat("Speed", 0f);
         }
@@ -92,6 +64,31 @@ public class CharacterMovementHandler : NetworkBehaviour
             Animator.SetFloat("Speed", 1f);
 
         }
+
+        // Salto
+        if (networkInputData.isJumpPressed)
+        {
+            _myCharacterController.Jump();
+            Animator.SetBool("Jumping", true);
+        }
+        else
+        {
+            Animator.SetBool("Jumping", false);
+        }
+
+        // Disparo
+        if (networkInputData.isFirePressed && HasBall)
+        {
+            RPC_FireAndDropBall();
+            Animator.SetTrigger("Shoot");
+        }
+        
+    }
+
+    public override void Render()
+    {
+        base.Render();
+        
 
     }
 

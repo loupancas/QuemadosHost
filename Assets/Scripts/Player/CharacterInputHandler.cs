@@ -14,7 +14,6 @@ public class CharacterInputHandler : MonoBehaviour
     [SerializeField] private float _groundCheckDistance = 1.1f;
     [SerializeField] private LayerMask _groundLayer;
     private bool _isGrounded = true;
-    //Animator _animator;
     private void Awake()
     {
         _inputData = new NetworkInputData();
@@ -31,31 +30,22 @@ public class CharacterInputHandler : MonoBehaviour
     void Update()
     {
         //CheckGrounded();
-        _xAxi = Input.GetAxis("Horizontal");
-        _yAxi = Input.GetAxis("Vertical");
+        //_xAxi = Input.GetAxis("Horizontal");
+        //_yAxi = Input.GetAxis("Vertical");
 
-        _inputData.movementInput = new Vector2(_xAxi, _yAxi);
-        //if (_inputData.movementInput.sqrMagnitude < 0.01f)
-        //{
-        //   _animator.SetFloat("Speed", 0f);
-        //}
-        //else
-        //{
-        //    _animator.SetFloat("Speed", 1f);
+        //_inputData.movementInput = new Vector2(_xAxi, _yAxi);
 
-        //}
+        _inputData.movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
 
         if (Input.GetKeyDown(KeyCode.Space) && _isGrounded)
         {
             _isJumpPressed = true;
-            //_animator.SetBool("Jumping", true);
         }
 
         if (Input.GetKeyDown(KeyCode.F))
         {
             _isFirePressed = true;
-            //_animator.SetBool("Shooting", true);
         }    
 
 
@@ -71,8 +61,6 @@ public class CharacterInputHandler : MonoBehaviour
         _isJumpPressed = false;
 
 
-        // Debug log to see input data
-        //Debug.Log("NetworkInputData: " + _inputData);
 
         return _inputData;
     }

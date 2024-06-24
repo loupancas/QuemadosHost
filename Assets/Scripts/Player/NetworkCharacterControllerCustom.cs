@@ -27,28 +27,29 @@ public class NetworkCharacterControllerCustom : NetworkCharacterController
         {
             return;
         }
-        Camera playerCamera = player.Camera;
-        if (playerCamera == null)
-        {
-            Debug.LogError("Player's camera is missing");
-            return;
-        }
+        //Camera playerCamera = player.Camera;
+        //if (playerCamera == null)
+        //{
+        //    Debug.LogError("Player's camera is missing");
+        //    return;
+        //}
 
         var deltaTime = Runner.DeltaTime;
         var previousPos = transform.position;
         var moveVelocity = Velocity;
 
-       
+        //Vector3 camForward = transform.forward;
+        //Vector3 camRight = transform.right;
 
-        Vector3 camForward = playerCamera.transform.forward;
-        Vector3 camRight = playerCamera.transform.right;
-        camForward.y = 0;
-        camRight.y = 0;
-        camForward.Normalize();
-        camRight.Normalize();
+        //Vector3 camForward = playerCamera.transform.forward;
+        //Vector3 camRight = playerCamera.transform.right;
+        //camForward.y = 0;
+        //camRight.y = 0;
+       // camForward.Normalize();
+       // camRight.Normalize();
 
-        direction = (camForward * inputHandler._yAxi + camRight * inputHandler._xAxi).normalized;
-
+        //direction = (camForward*inputHandler._yAxi + camRight * inputHandler._xAxi).normalized;
+        direction = new Vector3(inputHandler._xAxi, 0, inputHandler._yAxi).normalized;
 
         if (Grounded && moveVelocity.y < 0)
         {
@@ -94,6 +95,10 @@ public class NetworkCharacterControllerCustom : NetworkCharacterController
         transform.Rotate(0, rotationY * Runner.DeltaTime * rotationSpeed, 0);
     }
 
-
+    private void SetFirstPersonVisuals(bool firstPerson)
+    {
+        //FirstPersonRoot.SetActive(firstPerson);
+        //ThirdPersonRoot.SetActive(firstPerson == false);
+    }
 
 }
