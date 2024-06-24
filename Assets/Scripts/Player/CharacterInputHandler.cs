@@ -26,6 +26,8 @@ public class CharacterInputHandler : MonoBehaviour
 
     void Update()
     {
+        
+
         _inputData.movementInput = new Vector2(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"));
 
         _isJumpPressed |= Input.GetKeyDown(KeyCode.Space);
@@ -36,6 +38,9 @@ public class CharacterInputHandler : MonoBehaviour
         {
           NetworkPlayer.Local.is3rdPersonCamera = !NetworkPlayer.Local.is3rdPersonCamera;
         }
+
+        viewInput = new Vector2(Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"));
+
         _localCameraHandler.SetViewInputVector(viewInput);
 
     }

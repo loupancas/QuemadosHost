@@ -18,7 +18,7 @@ public class LifeHandler : NetworkBehaviour
 
     private byte _currentDeads = 0;
 
-    UIHealth _uiHealth;
+    //UIHealth _uiHealth;
 
     [Networked] 
     NetworkBool IsDead { get; set; }
@@ -61,13 +61,13 @@ public class LifeHandler : NetworkBehaviour
             }
         }
 
-        _uiHealth.UpdateHealth(this);
+        //_uiHealth.UpdateHealth(this);
     }
 
     public void Health(byte currentLife)
     {
         _currentLife = currentLife;
-        _uiHealth.UpdateHealth(this);
+        //_uiHealth.UpdateHealth(this);
 
     }
 
@@ -83,7 +83,7 @@ public class LifeHandler : NetworkBehaviour
         OnRespawn?.Invoke();
         IsDead = false;
         _currentLife = MAX_LIFE;
-        _uiHealth.UpdateHealth(this);
+        //_uiHealth.UpdateHealth(this);
 
     }
 
