@@ -1108,6 +1108,7 @@ GameObject:
   - component: {fileID: 6291370432751387910}
   - component: {fileID: -1029973060747154942}
   - component: {fileID: 5555971728441516857}
+  - component: {fileID: -2500831958252268133}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -1160,6 +1161,7 @@ MonoBehaviour:
   - {fileID: 5860577369457566291}
   - {fileID: -1029973060747154942}
   - {fileID: 5555971728441516857}
+  - {fileID: -2500831958252268133}
 --- !u!143 &3646999185272772699
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1295,6 +1297,21 @@ MonoBehaviour:
   SyncSettings: 79
   StateHashes: 000000008a18fce4b9abd9d32638cb43a21b1dacc01206a9b46d03cd336e528e471157ea
   TriggerHashes: 00000000bad385b1
+--- !u!114 &-2500831958252268133
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1372818318902800013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d07f808ce8326674196e05bed010ddb5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  viewInputVector: {x: 0, y: 0}
+  _HasBall:
+    _value: 0
 --- !u!1 &1397653250605666411
 GameObject:
   m_ObjectHideFlags: 0
