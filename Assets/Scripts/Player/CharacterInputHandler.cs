@@ -30,7 +30,7 @@ public class CharacterInputHandler : MonoBehaviour
 
         _isJumpPressed |= Input.GetKeyDown(KeyCode.Space);
 
-        _isFirePressed |= Input.GetMouseButtonDown(1);
+        _isFirePressed |= Input.GetKeyDown(KeyCode.F);
 
         if (Input.GetKeyDown(KeyCode.C))
         {
