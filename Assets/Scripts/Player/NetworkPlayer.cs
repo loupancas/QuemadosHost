@@ -21,8 +21,8 @@ public class NetworkPlayer : NetworkBehaviour
         {
             Camera localCamera = GetComponentInChildren<Camera>();
             localCamera.enabled = false;
-            AudioListener audioListener = GetComponentInChildren<AudioListener>();
-            audioListener.enabled = false;
+            //AudioListener audioListener = GetComponentInChildren<AudioListener>();
+            //audioListener.enabled = false;
         }
     }
 }
