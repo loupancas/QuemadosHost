@@ -17,6 +17,8 @@ public class CharacterMovementHandler : NetworkBehaviour
 
     public Vector2 viewInputVector;
     Camera localCamera;
+
+    public Animator Animator;
     
     public bool ThirdPersonCamera { get; set; }
     [Networked]
@@ -62,16 +64,32 @@ public class CharacterMovementHandler : NetworkBehaviour
         Vector3 moveDirection = new Vector3(networkInputData.movementInput.x, 0, networkInputData.movementInput.y);
         _myCharacterController.Move(moveDirection);
 
+        if (moveDirection.sqrMagnitude < 0.01f)
+        {
+            Animator.SetFloat("Speed", 0f);
+        }
+        else
+        {
+            Animator.SetFloat("Speed", 1f);
+
+        }
+
         // Salto
         if (networkInputData.isJumpPressed)
         {
             _myCharacterController.Jump();
+            Animator.SetBool("Jumping", true);
+        }
+        else
+        {
+            Animator.SetBool("Jumping", false);
         }
 
         // Disparo
         if (networkInputData.isFirePressed && HasBall)
         {
             RPC_FireAndDropBall();
+            Animator.SetTrigger("Shoot");
         }
         
     }

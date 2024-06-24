@@ -1310,6 +1310,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   viewInputVector: {x: 0, y: 0}
+  Animator: {fileID: 7467041650921160955}
   _HasBall:
     _value: 0
 --- !u!1 &1397653250605666411
