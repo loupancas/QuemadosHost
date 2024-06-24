@@ -1201,6 +1201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playermodel: {fileID: 5573095321805517836}
+  localCameraHandler: {fileID: 2910735018567040904}
 --- !u!114 &-2902237220816036932
 MonoBehaviour:
   m_ObjectHideFlags: 0

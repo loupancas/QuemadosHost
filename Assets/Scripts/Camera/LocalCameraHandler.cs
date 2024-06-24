@@ -15,7 +15,7 @@ public class LocalCameraHandler : MonoBehaviour
     float cameraRotationX = 0;
     float cameraRotationY = 0;
 
-    NetworkPlayer playermodel;
+    //NetworkPlayer playermodel;
     CinemachineVirtualCamera cinemachineVirtualCamera;
     NetworkCharacterControllerCustom _networkCharacterControllerCustom;
     private void Awake()
@@ -26,8 +26,8 @@ public class LocalCameraHandler : MonoBehaviour
 
     void Start()
     {
-        if (localCamera.enabled)
-            localCamera.transform.parent = null;
+        //if (localCamera.enabled)
+            //localCamera.transform.parent = null;
 
         cameraRotationX = GameManager.instance.CameraViewRotation.x;
         cameraRotationY = GameManager.instance.CameraViewRotation.y;
