@@ -5,31 +5,52 @@ using UnityEngine;
 
 	public class UIGameOverView : MonoBehaviour
 	{
+		public TextMeshProUGUI Winner;
 		public GameObject      Victory;
 		public GameObject      Defeat;
 
-        LifeHandler _lifeHandler;
+		private GameUI _gameUI;
+		private EGameplayState _lastState;
 
-        private void Update()
-		{		
+		
+
+		private void Awake()
+		{
+			_gameUI = GetComponentInParent<GameUI>();
+		}
+
+		private void Update()
+		{
+			if (_gameUI.Runner == null)
+				return;
 
 			// Unlock cursor.
 			Cursor.lockState = CursorLockMode.None;
-			Cursor.visible = true;      
+			Cursor.visible = true;
 
-   //        if (bool localPlayerIsWinner = false)
-		 //  {
-			//Defeat.SetActive(localPlayerIsWinner == true);
+			if (_gameUI.Gameplay.Object == null || _gameUI.Gameplay.Object.IsValid == false)
+				return;
 
-
-   //        }
-		 //  else
-   //        {
-   //         Victory.SetActive(localPlayerIsWinner == true);
-   //        }
-
-        }
+			if (_lastState == _gameUI.Gameplay.State)
+				return;
 
 
-    }
+			_lastState = _gameUI.Gameplay.State;
+
+			bool localPlayerIsWinner = false;
+			Winner.text = string.Empty;
+
+			foreach (var playerPair in _gameUI.Gameplay.PlayerData)
+			{
+				//if (playerPair.Value.StatisticPosition != 1)
+				//	continue;
+
+				Winner.text = $"Winner is {playerPair.Value.Nickname}";
+				localPlayerIsWinner = playerPair.Key == _gameUI.Runner.LocalPlayer;
+			}
+
+			Victory.SetActive(localPlayerIsWinner);
+			Defeat.SetActive(localPlayerIsWinner == false);
+		}
+	}
 
