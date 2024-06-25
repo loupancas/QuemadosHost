@@ -154,7 +154,7 @@ public class CharacterMovementHandler : NetworkBehaviour
         ChangeColorRecursively(transform, Color.red);
         yield return new WaitForSeconds(duration);
         _myCharacterController.maxSpeed = _defaultSpeed;
-        ChangeColorRecursively(transform, Color.white);
+        ChangeColorRecursively(transform, Color.gray);
     }
 
     private IEnumerator BoostJump(float modifier, float duration)
@@ -163,7 +163,7 @@ public class CharacterMovementHandler : NetworkBehaviour
          ChangeColorRecursively(transform, Color.blue);
         yield return new WaitForSeconds(duration);
         _myCharacterController.jumpImpulse = _defaultJumpForce;
-        ChangeColorRecursively(transform, Color.white);
+        ChangeColorRecursively(transform, Color.gray);
     }
 
     void ChangeColorRecursively(Transform parent, Color color)
