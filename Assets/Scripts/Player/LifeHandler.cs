@@ -10,8 +10,8 @@ using UnityEngine.UI;
 public class LifeHandler : NetworkBehaviour
 {
     [SerializeField] private GameObject _playerVisual;
-    
-    public byte _currentLife;
+    [Networked, OnChangedRender(nameof(OnLifeChanged))]
+    private byte _currentLife { get; set; }
     Ball Ball;
     public const byte MAX_LIFE = 10;
     private const byte MAX_DEADS = 5;
@@ -26,19 +26,27 @@ public class LifeHandler : NetworkBehaviour
     private ChangeDetector _changeDetector;
     
     public event Action<bool> OnDeadChange = delegate {  };
+    public event Action<float> OnLifeUpdate = delegate { };
     public event Action OnRespawn = delegate {  };
     public event Action OnDespawn = delegate {  };
-    
-    void Awake()
-    {
-        _currentLife = MAX_LIFE;
-    }
+
+    private NickNameBarLifeItem _myItemUI;
+
+
+    //void Awake()
+    //{
+    //    _currentLife = MAX_LIFE;
+    //}
 
     public override void Spawned()
     {
         _changeDetector = GetChangeDetector(ChangeDetector.Source.SimulationState);
+        _currentLife = MAX_LIFE;
     }
-    
+
+    public void GetMyUI(NickNameBarLifeItem item) => _myItemUI = item;
+
+
     //Al morir, si es mi primera vez, revivir a los 2 segundos
     //Si es mi segunda vez, desconectar al jugador
     public void TakeDamage(byte dmg)
@@ -64,12 +72,12 @@ public class LifeHandler : NetworkBehaviour
         //_uiHealth.UpdateHealth(this);
     }
 
-    public void Health(byte currentLife)
-    {
-        _currentLife = currentLife;
-        //_uiHealth.UpdateHealth(this);
+    //public void Health(byte currentLife)
+    //{
+    //    _currentLife = currentLife;
+    //    //_uiHealth.UpdateHealth(this);
 
-    }
+    //}
 
     IEnumerator Server_RespawnCooldown()
     {
@@ -80,7 +88,7 @@ public class LifeHandler : NetworkBehaviour
 
     void Server_Revive()
     {
-        OnRespawn?.Invoke();
+        OnRespawn();
         IsDead = false;
         _currentLife = MAX_LIFE;
         //_uiHealth.UpdateHealth(this);
@@ -119,7 +127,7 @@ public class LifeHandler : NetworkBehaviour
             Remote_Respawn();
         }
 
-        OnDeadChange?.Invoke(IsDead);
+        OnDeadChange(IsDead);
     }
     
     void Remote_Dead()
@@ -134,6 +142,11 @@ public class LifeHandler : NetworkBehaviour
 
     public override void Despawned(NetworkRunner runner, bool hasState)
     {
-        OnDespawn?.Invoke();
+        OnDespawn();
+    }
+
+    void OnLifeChanged()
+    {
+        _myItemUI.UpdateLifeBar(_currentLife / MAX_LIFE);
     }
 }

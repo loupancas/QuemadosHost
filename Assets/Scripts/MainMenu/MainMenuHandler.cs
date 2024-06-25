@@ -19,7 +19,8 @@ public class MainMenuHandler : MonoBehaviour
     
     [Header("InputFields")]
     [SerializeField] private TMP_InputField _hostSessionName;
-    
+    [SerializeField] private TMP_InputField _playerNickName;
+
     [Header("Texts")]
     [SerializeField] private TMP_Text _statusText;
     
@@ -39,6 +40,8 @@ public class MainMenuHandler : MonoBehaviour
     void Btn_JoinLobby()
     {
         _networkHandler.JoinLobby();
+
+        PlayerPrefs.SetString("UserNickName", _playerNickName.text);
 
         _initialPanel.SetActive(false);
         _statusPanel.SetActive(true);
